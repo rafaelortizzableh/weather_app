@@ -6,5 +6,6 @@
   "darkTheme": "Tema oscuro",
   "weatherInLondon": "El tiempo en Londres",
   "reloadWeather": "Refrescar información del clima",
-  "forecastForNextFiveDays": "El tiempo en los próximos días"
+  "forecastForNextFiveDays": "El tiempo en los próximos días",
+  "noInternetConnection": "Sin Conexión a Internet"
 }

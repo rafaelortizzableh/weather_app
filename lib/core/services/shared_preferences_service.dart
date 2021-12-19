@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../core.dart';
 
 class SharedPreferencesService {
   final SharedPreferences prefs;
@@ -26,7 +27,7 @@ class SharedPreferencesService {
       return await prefs.setStringList('lastForecastData', lastForecastData);
     } catch (e) {
       debugPrint(e.toString());
-      rethrow;
+      throw Failure(message: 'Could not save forecast');
     }
   }
 
@@ -35,7 +36,7 @@ class SharedPreferencesService {
       return await prefs.setString('selectedTheme', theme);
     } catch (e) {
       debugPrint(e.toString());
-      rethrow;
+      throw Failure(message: 'Could not save current weather');
     }
   }
 }
