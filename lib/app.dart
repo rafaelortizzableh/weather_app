@@ -14,7 +14,7 @@ class MyApp extends ConsumerWidget {
       builder: (BuildContext context) {
         return MaterialApp(
           restorationScopeId: 'app',
-          title: 'Movie Recomendation App',
+          title: 'Weather App',
           localizationsDelegates: const [
             AppLocalizations.delegate,
             GlobalMaterialLocalizations.delegate,
