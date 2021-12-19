@@ -21,5 +21,6 @@
   },
   "weatherInLondon": "The weather in London",
   "reloadWeather": "Reload Weather Data",
-  "forecastForNextFiveDays": "Forecast for the next five days"
+  "forecastForNextFiveDays": "Forecast for the next five days",
+  "noInternetConnection": "No Internet Connection"
 }
