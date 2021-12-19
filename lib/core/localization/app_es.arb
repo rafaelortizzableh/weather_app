@@ -1,0 +1,10 @@
+{
+  "appTitle": "Weather App",
+  "theme": "Tema",
+  "lightTheme": "Tema claro",
+  "systemTheme": "Tema del sistema",
+  "darkTheme": "Tema oscuro",
+  "weatherInLondon": "El tiempo en Londres",
+  "reloadWeather": "Refrescar información del clima",
+  "forecastForNextFiveDays": "El tiempo en los próximos días"
+}
