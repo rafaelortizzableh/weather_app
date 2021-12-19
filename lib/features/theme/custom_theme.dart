@@ -49,8 +49,8 @@ class CustomTheme {
         style: ElevatedButton.styleFrom(
           enableFeedback: true,
           padding: const EdgeInsets.symmetric(
-              horizontal: AppConstants.horizontalPadding,
-              vertical: AppConstants.verticalPadding),
+              horizontal: AppConstants.padding12,
+              vertical: AppConstants.padding12),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppConstants.borderRadius),
           ),
@@ -102,8 +102,8 @@ class CustomTheme {
         style: ElevatedButton.styleFrom(
           enableFeedback: true,
           padding: const EdgeInsets.symmetric(
-              horizontal: AppConstants.horizontalPadding,
-              vertical: AppConstants.verticalPadding),
+              horizontal: AppConstants.padding12,
+              vertical: AppConstants.padding12),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppConstants.borderRadius),
           ),

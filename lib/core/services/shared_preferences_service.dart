@@ -9,7 +9,8 @@ class SharedPreferencesService {
 
   String? get getLastWeatherData => prefs.getString('lastWeatherData');
 
-  String? get getLastForecastData => prefs.getString('lastWeatherData');
+  List<String>? get getLastForecastData =>
+      prefs.getStringList('lastForecastData');
 
   String? get getUserTheme => prefs.getString('selectedTheme');
 

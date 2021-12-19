@@ -3,21 +3,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../core/core.dart';
-import '../features.dart';
+import '../../../core/core.dart';
+import '../../features.dart';
 
-final weatherRepositoryProvider = Provider<WeatherRepository>(
+final remoteWeatherRepositoryProvider = Provider<RemoteWeatherRepository>(
   (ref) => OpenWeatherRepository(
     dio: ref.watch(dioProvider),
   ),
 );
 
-abstract class WeatherRepository {
+abstract class RemoteWeatherRepository {
   Future<List<WeatherModelEntity>> getLondonFiveDayForecast();
   Future<WeatherModelEntity> getLondonWeather();
 }
 
-class OpenWeatherRepository implements WeatherRepository {
+class OpenWeatherRepository implements RemoteWeatherRepository {
   const OpenWeatherRepository({required this.dio});
   final Dio dio;
 
@@ -44,6 +44,7 @@ class OpenWeatherRepository implements WeatherRepository {
           message:
               '${AppLocalizations.of(AppConstants.navigationKey.currentContext!)?.noInternetConnection}',
           exception: e,
+          code: 999, // 999 will let us know it is a connection request
         );
       }
 
@@ -94,6 +95,7 @@ class OpenWeatherRepository implements WeatherRepository {
           message:
               '${AppLocalizations.of(AppConstants.navigationKey.currentContext!)?.noInternetConnection}',
           exception: e,
+          code: 999, // 999 will let us know it is a connection request
         );
       }
 
