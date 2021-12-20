@@ -56,6 +56,7 @@ class WeatherSuccessWidget extends StatelessWidget {
       padding: const EdgeInsets.all(AppConstants.padding12),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -91,26 +92,44 @@ class WeatherSuccessWidget extends StatelessWidget {
                   ),
                 ],
               ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  DataChip(
-                      text: '${weatherModel.humidity}%',
-                      icon: CupertinoIcons.umbrella,
-                      theme: theme),
-                  DataChip(
-                    text: '${weatherModel.feelsLike.round()}°C',
-                    icon: CupertinoIcons.person_alt_circle,
-                    theme: theme,
-                  ),
-                ],
-              )
             ],
           ),
+          const SizedBox(height: AppConstants.padding8),
           Text(weatherModel.status,
               style: theme.textTheme.headline4
                   ?.copyWith(fontWeight: FontWeight.bold),
               textAlign: TextAlign.start),
+          const SizedBox(height: AppConstants.padding8),
+          Text(weatherModel.dateText,
+              style: theme.textTheme.headline5
+                  ?.copyWith(fontWeight: FontWeight.w300),
+              textAlign: TextAlign.start),
+          const SizedBox(height: AppConstants.padding8),
+          Wrap(
+            alignment: WrapAlignment.spaceAround,
+            spacing: AppConstants.padding8,
+            children: [
+              DataChip(
+                  text: '${weatherModel.humidity}%',
+                  icon: CupertinoIcons.drop_fill,
+                  theme: theme),
+              DataChip(
+                text: '${weatherModel.feelsLike.round()}°C',
+                icon: CupertinoIcons.person_alt_circle,
+                theme: theme,
+              ),
+              DataChip(
+                text: '${weatherModel.highestTemperature.round()}°C',
+                icon: CupertinoIcons.arrow_up,
+                theme: theme,
+              ),
+              DataChip(
+                text: '${weatherModel.lowestTemperature.round()}°C',
+                icon: CupertinoIcons.arrow_down,
+                theme: theme,
+              ),
+            ],
+          ),
         ],
       ),
     );
@@ -132,7 +151,6 @@ class DataChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 120.0,
       child: Chip(
         backgroundColor: theme.brightness == Brightness.light
             ? Colors.white
