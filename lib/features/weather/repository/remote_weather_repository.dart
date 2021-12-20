@@ -69,7 +69,7 @@ class OpenWeatherRepository implements RemoteWeatherRepository {
         'units': 'metric',
       });
 
-      final results = List<Map<String, dynamic>>.from(response.data['list']);
+      final results = List<dynamic>.from(response.data['list']);
 
       // As the API has limitations for free plans, we will grab the weather for the same time on the next five days at the same time
       // 24-hour day / three hour interval -> 8 instance will be equivalent to the current time next day
@@ -78,17 +78,16 @@ class OpenWeatherRepository implements RemoteWeatherRepository {
       // This is not ideal, but it's a limitation imposed by the chosen API for their free plans
 
       final dailyResults = [
-        results[8],
-        results[16],
-        results[24],
-        results[30],
-        results[38],
+        results[7],
+        results[15],
+        results[23],
+        results[31],
+        results[39],
       ];
 
-      return dailyResults
-          .map((weatherJsonObject) =>
-              WeatherModelEntity.fromMap(weatherJsonObject))
-          .toList();
+      return dailyResults.map((weatherJsonObject) {
+        return WeatherModelEntity.fromMap(weatherJsonObject);
+      }).toList();
     } on DioError catch (e) {
       if (e.error is SocketException) {
         throw Failure(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../../core/core.dart';
 import 'theme_export.dart';
 
@@ -12,20 +13,20 @@ class CustomTheme {
       colorScheme: ColorScheme.fromSwatch(
         brightness: Brightness.dark,
         primarySwatch: MaterialColor(
-          Palette.indigo500.value,
+          Colors.lightBlue.shade300.value,
           const {
-            100: Palette.indigo100,
-            200: Palette.indigo200,
-            300: Palette.indigo300,
-            400: Palette.indigo400,
-            500: Palette.indigo500,
-            600: Palette.indigo600,
-            700: Palette.indigo700,
-            800: Palette.indigo800,
-            900: Palette.indigo900,
+            100: Palette.appColor100,
+            200: Palette.appColor200,
+            300: Palette.appColor300,
+            400: Palette.appColor400,
+            500: Palette.appColor500,
+            600: Palette.appColor600,
+            700: Palette.appColor700,
+            800: Palette.appColor800,
+            900: Palette.appColor900,
           },
         ),
-        accentColor: Palette.indigo500,
+        accentColor: Palette.appColor500,
       ),
       scaffoldBackgroundColor: Palette.black,
       appBarTheme: const AppBarTheme(
@@ -42,7 +43,7 @@ class CustomTheme {
           .apply(displayColor: Colors.white),
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
-          backgroundColor: Palette.indigo500,
+          backgroundColor: Palette.appColor500,
         ),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
@@ -65,26 +66,28 @@ class CustomTheme {
       colorScheme: ColorScheme.fromSwatch(
         brightness: Brightness.light,
         primarySwatch: MaterialColor(
-          Palette.indigo500.value,
+          Colors.lightBlue.shade300.value,
           const {
-            100: Palette.indigo100,
-            200: Palette.indigo200,
-            300: Palette.indigo300,
-            400: Palette.indigo400,
-            500: Palette.indigo500,
-            600: Palette.indigo600,
-            700: Palette.indigo700,
-            800: Palette.indigo800,
-            900: Palette.indigo900,
+            100: Palette.appColor100,
+            200: Palette.appColor200,
+            300: Palette.appColor300,
+            400: Palette.appColor400,
+            500: Palette.appColor500,
+            600: Palette.appColor600,
+            700: Palette.appColor700,
+            800: Palette.appColor800,
+            900: Palette.appColor900,
           },
         ),
-        accentColor: Palette.indigo500,
+        accentColor: Colors.lightBlue,
       ),
-      scaffoldBackgroundColor: Palette.white,
+      scaffoldBackgroundColor: Colors.lightBlue.shade300,
       appBarTheme: const AppBarTheme(
           elevation: _appBarElevation,
-          color: Palette.white,
-          foregroundColor: Palette.indigo500),
+          systemOverlayStyle:
+              SystemUiOverlayStyle(statusBarBrightness: Brightness.dark),
+          // color: Palette.white,
+          foregroundColor: Colors.white),
       textTheme: theme.primaryTextTheme
           .copyWith(
             button: theme.primaryTextTheme.button?.copyWith(
@@ -92,12 +95,13 @@ class CustomTheme {
               fontSize: _buttonFontSize,
             ),
           )
-          .apply(displayColor: Colors.black, bodyColor: Colors.black),
+          .apply(displayColor: Colors.white, bodyColor: Colors.white),
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
-          backgroundColor: Palette.indigo500,
+          backgroundColor: Palette.appColor500,
         ),
       ),
+      canvasColor: Colors.lightBlue.shade400,
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           enableFeedback: true,

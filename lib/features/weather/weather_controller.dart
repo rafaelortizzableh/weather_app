@@ -34,34 +34,52 @@ class WeatherController extends StateNotifier<WeatherState> {
     final forecastResult = result[0] as Result<Failure, List<WeatherModel>>;
     final currentWeatherResult = result[1] as Result<Failure, WeatherModel>;
 
-    forecastResult.when((error) {
-      if (error.code == 999 &&
-          weatherService.getLocalLondonFiveDayForecast() is! Failure) {
-        final localWeatherForecast = weatherService
-            .getLocalLondonFiveDayForecast() as List<WeatherModel>;
-        state = state.copyWith(
-          forecast: AsyncValue.data(localWeatherForecast),
+    forecastResult.when(
+      (error) {
+        if (error.code == 999 &&
+            weatherService.getLocalLondonFiveDayForecast() is! Failure) {
+          final localWeatherForecast =
+              weatherService.getLocalLondonFiveDayForecast();
+
+          localWeatherForecast.when(
+            (error) => state = state.copyWith(
+              forecast: AsyncValue.error(error),
+            ),
+            (forecast) => state = state.copyWith(
+              forecast: AsyncValue.data(forecast),
+            ),
+          );
+        } else {
+          state = state.copyWith(forecast: AsyncValue.error(error));
+        }
+      },
+      (forecast) {
+        weatherService.saveForecastLocally(forecast);
+        return state = state.copyWith(
+          forecast: AsyncValue.data(forecast),
         );
-      } else {
-        state = state.copyWith(forecast: AsyncValue.error(error));
-      }
-    },
-        (forecast) =>
-            state = state.copyWith(forecast: AsyncValue.data(forecast)));
+      },
+    );
 
     currentWeatherResult.when((error) {
       if (error.code == 999 &&
           weatherService.getLocalLondonWeather() is! Failure) {
-        final localWeather =
-            weatherService.getLocalLondonWeather() as WeatherModel;
-        state = state.copyWith(
-          currentWeather: AsyncValue.data(localWeather),
+        final localWeather = weatherService.getLocalLondonWeather();
+
+        localWeather.when(
+          (error) => state = state.copyWith(
+            currentWeather: AsyncValue.error(error),
+          ),
+          (weather) => state = state.copyWith(
+            currentWeather: AsyncValue.data(weather),
+          ),
         );
       } else {
         state = state.copyWith(forecast: AsyncValue.error(error));
       }
-    },
-        (weather) =>
-            state = state.copyWith(currentWeather: AsyncValue.data(weather)));
+    }, (weather) {
+      weatherService.saveWeatherLocally(weather);
+      return state = state.copyWith(currentWeather: AsyncValue.data(weather));
+    });
   }
 }

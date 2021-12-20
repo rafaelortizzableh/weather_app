@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:intl/intl.dart';
 import 'package:weather_app/features/weather/model/weather_model_entity.dart';
 
 class WeatherModel {
@@ -11,6 +12,7 @@ class WeatherModel {
   final double lowestTemperature;
   final String iconUrlSmall;
   final String iconUrlLarge;
+  final DateTime timeStamp;
 
   WeatherModel({
     required this.status,
@@ -21,6 +23,7 @@ class WeatherModel {
     required this.lowestTemperature,
     required this.iconUrlSmall,
     required this.iconUrlLarge,
+    required this.timeStamp,
   });
 
   WeatherModel.initial()
@@ -31,37 +34,9 @@ class WeatherModel {
         highestTemperature = 0,
         lowestTemperature = 0,
         iconUrlSmall = '',
-        iconUrlLarge = '';
+        iconUrlLarge = '',
+        timeStamp = DateTime.now();
 
-  @override
-  String toString() {
-    return 'WeatherModel(status: $status, celsiusTemperature: $celsiusTemperature, feelsLike: $feelsLike, humidity: $humidity, highestTemperature: $highestTemperature, lowestTemperature: $lowestTemperature, iconUrl: $iconUrlSmall)';
-  }
-
-  Map<String, dynamic> toMap() {
-    return {
-      'status': status,
-      'celsiusTemperature': celsiusTemperature,
-      'feelsLike': feelsLike,
-      'humidity': humidity,
-      'highestTemperature': highestTemperature,
-      'lowestTemperature': lowestTemperature,
-      'iconUrl': iconUrlSmall,
-    };
-  }
-
-  factory WeatherModel.fromMap(Map<String, dynamic> map) {
-    return WeatherModel(
-      status: map['status'] ?? '',
-      celsiusTemperature: map['celsiusTemperature']?.toDouble() ?? 0.0,
-      feelsLike: map['feelsLike']?.toDouble() ?? 0.0,
-      humidity: map['humidity']?.toDouble() ?? 0,
-      highestTemperature: map['highestTemperature']?.toDouble() ?? 0.0,
-      lowestTemperature: map['lowestTemperature']?.toDouble() ?? 0.0,
-      iconUrlSmall: map['iconUrlSmall'] ?? '',
-      iconUrlLarge: map['iconUrlLarge'] ?? '',
-    );
-  }
   factory WeatherModel.fromEntity(WeatherModelEntity entity) {
     return WeatherModel(
       status: entity.weatherEntity.first.main,
@@ -70,6 +45,7 @@ class WeatherModel {
       humidity: entity.main.humidity,
       highestTemperature: entity.main.tempMax,
       lowestTemperature: entity.main.tempMin,
+      timeStamp: DateTime.fromMillisecondsSinceEpoch(entity.dt * 1000),
       iconUrlSmall:
           'https://openweathermap.org/img/wn/${entity.weatherEntity.first.icon}@2x.png',
       iconUrlLarge:
@@ -81,4 +57,34 @@ class WeatherModel {
 
   factory WeatherModel.fromJson(String source) =>
       WeatherModel.fromMap(json.decode(source));
+
+  Map<String, dynamic> toMap() {
+    return {
+      'status': status,
+      'celsiusTemperature': celsiusTemperature,
+      'feelsLike': feelsLike,
+      'humidity': humidity,
+      'highestTemperature': highestTemperature,
+      'lowestTemperature': lowestTemperature,
+      'iconUrlSmall': iconUrlSmall,
+      'iconUrlLarge': iconUrlLarge,
+      'timeStamp': timeStamp.toString(),
+    };
+  }
+
+  String get dateText => DateFormat('EEEEEE, dd/M/y').format(timeStamp);
+
+  factory WeatherModel.fromMap(Map<String, dynamic> map) {
+    return WeatherModel(
+      status: map['status'] ?? '',
+      celsiusTemperature: map['celsiusTemperature']?.toDouble() ?? 0.0,
+      feelsLike: map['feelsLike']?.toDouble() ?? 0.0,
+      humidity: map['humidity']?.toInt() ?? 0,
+      highestTemperature: map['highestTemperature']?.toDouble() ?? 0.0,
+      lowestTemperature: map['lowestTemperature']?.toDouble() ?? 0.0,
+      iconUrlSmall: map['iconUrlSmall'] ?? '',
+      iconUrlLarge: map['iconUrlLarge'] ?? '',
+      timeStamp: DateTime.parse(map['timeStamp']),
+    );
+  }
 }

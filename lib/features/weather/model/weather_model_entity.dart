@@ -1,46 +1,45 @@
 class WeatherModelEntity {
   WeatherModelEntity({
-    required this.coord,
+    this.coord,
     required this.weatherEntity,
-    required this.base,
+    this.base,
     required this.main,
     required this.visibility,
     required this.wind,
     required this.cloudsEntity,
     required this.dt,
-    required this.sys,
-    required this.timezone,
-    required this.id,
-    required this.name,
-    required this.cod,
+    this.timezone,
+    this.id,
+    this.name,
+    this.cod,
   });
 
-  final CoordsEntity coord;
+  final CoordsEntity? coord;
   final List<WeatherEntity> weatherEntity;
-  final String base;
+  final String? base;
   final Main main;
   final int visibility;
   final Wind wind;
   final CloudsEntity cloudsEntity;
   final int dt;
-  final Sys sys;
-  final int timezone;
-  final int id;
-  final String name;
-  final int cod;
+  // final Sys? sys;
+  final int? timezone;
+  final int? id;
+  final String? name;
+  final int? cod;
 
   factory WeatherModelEntity.fromMap(Map<String, dynamic> json) =>
       WeatherModelEntity(
-        coord: CoordsEntity.fromMap(json['coord']),
+        coord:
+            json['coord'] != null ? CoordsEntity.fromMap(json['coord']) : null,
         weatherEntity: List<WeatherEntity>.from(
             json['weather'].map((x) => WeatherEntity.fromMap(x))),
         base: json['base'],
         main: Main.fromMap(json['main']),
         visibility: json['visibility'],
         wind: Wind.fromMap(json['wind']),
-        cloudsEntity: CloudsEntity.fromMap(json['cloudsEntity']),
+        cloudsEntity: CloudsEntity.fromMap(json['clouds']),
         dt: json['dt'],
-        sys: Sys.fromMap(json['sys']),
         timezone: json['timezone'],
         id: json['id'],
         name: json['name'],
@@ -48,7 +47,7 @@ class WeatherModelEntity {
       );
 
   Map<String, dynamic> toMap() => {
-        'coord': coord.toMap(),
+        'coord': coord?.toMap(),
         'weather': List<dynamic>.from(weatherEntity.map((x) => x.toMap())),
         'base': base,
         'main': main.toMap(),
@@ -56,7 +55,6 @@ class WeatherModelEntity {
         'wind': wind.toMap(),
         'cloudsEntity': cloudsEntity.toMap(),
         'dt': dt,
-        'sys': sys.toMap(),
         'timezone': timezone,
         'id': id,
         'name': name,
@@ -172,38 +170,6 @@ class Main {
   }
 }
 
-class Sys {
-  Sys({
-    required this.type,
-    required this.id,
-    required this.country,
-    required this.sunrise,
-    required this.sunset,
-  });
-
-  final int type;
-  final int id;
-  final String country;
-  final int sunrise;
-  final int sunset;
-
-  factory Sys.fromMap(Map<String, dynamic> json) => Sys(
-        type: json['type'],
-        id: json['id'],
-        country: json['country'],
-        sunrise: json['sunrise'],
-        sunset: json['sunset'],
-      );
-
-  Map<String, dynamic> toMap() => {
-        'type': type,
-        'id': id,
-        'country': country,
-        'sunrise': sunrise,
-        'sunset': sunset,
-      };
-}
-
 class WeatherEntity {
   WeatherEntity({
     required this.id,
@@ -256,7 +222,7 @@ class Wind {
   final int deg;
 
   factory Wind.fromMap(Map<String, dynamic> json) => Wind(
-        speed: json['speed'].toDouble(),
+        speed: json['speed'],
         deg: json['deg'],
       );
 

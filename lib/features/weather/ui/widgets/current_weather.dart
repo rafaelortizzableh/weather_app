@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -33,43 +34,110 @@ class WeatherSuccessWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Image.network(weatherModel.iconUrlLarge, width: 32.0, height: 32.0),
-            const SizedBox(width: AppConstants.padding4),
-            Text(
-              '${weatherModel.celsiusTemperature}',
-              style: theme.textTheme.headline1,
-            ),
-            const SizedBox(width: AppConstants.padding4),
-            Text(
-              '°C',
-              style: theme.textTheme.headline3,
-            ),
-          ],
+    return Padding(
+      padding: const EdgeInsets.all(AppConstants.padding12),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('${weatherModel.celsiusTemperature.round()}',
+                          style: theme.textTheme.headline1),
+                      Padding(
+                        padding:
+                            const EdgeInsets.only(top: AppConstants.padding12),
+                        child: Text(
+                          '°C',
+                          style: theme.textTheme.headline4
+                              ?.copyWith(fontWeight: FontWeight.w200),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(width: AppConstants.padding4),
+                  CachedNetworkImage(
+                    imageUrl: weatherModel.iconUrlLarge,
+                    width: 128.0,
+                    height: 128.0,
+                    errorWidget: (context, _, __) => const Icon(Icons.error),
+                    progressIndicatorBuilder:
+                        (context, url, downloadProgress) =>
+                            CircularProgressIndicator(
+                                value: downloadProgress.progress),
+                  ),
+                ],
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  DataChip(
+                      text: '${weatherModel.humidity}%',
+                      icon: CupertinoIcons.umbrella,
+                      theme: theme),
+                  DataChip(
+                    text: '${weatherModel.feelsLike.round()}°C',
+                    icon: CupertinoIcons.person_alt_circle,
+                    theme: theme,
+                  ),
+                ],
+              )
+            ],
+          ),
+          Text(weatherModel.status,
+              style: theme.textTheme.headline4
+                  ?.copyWith(fontWeight: FontWeight.bold),
+              textAlign: TextAlign.start),
+        ],
+      ),
+    );
+  }
+}
+
+class DataChip extends StatelessWidget {
+  const DataChip({
+    Key? key,
+    required this.theme,
+    required this.icon,
+    required this.text,
+  }) : super(key: key);
+
+  final IconData icon;
+  final String text;
+  final ThemeData theme;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 120.0,
+      child: Chip(
+        backgroundColor: theme.brightness == Brightness.light
+            ? Colors.white
+            : theme.canvasColor,
+        label: Text(
+          text,
+          style: theme.textTheme.bodyText1?.copyWith(
+            fontWeight: FontWeight.bold,
+            color: theme.brightness == Brightness.light
+                ? Palette.grey600
+                : Colors.white,
+          ),
         ),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Chip(
-              label: Text('${weatherModel.humidity}'),
-              avatar: const CircleAvatar(
-                child: Icon(CupertinoIcons.umbrella),
-              ),
-            ),
-            Chip(
-              label: Text('${weatherModel.feelsLike}'),
-              avatar: const CircleAvatar(
-                child: Icon(CupertinoIcons.person_alt_circle),
-              ),
-            ),
-          ],
-        )
-      ],
+        avatar: CircleAvatar(
+          child: Icon(icon),
+          backgroundColor: theme.brightness == Brightness.light
+              ? Palette.grey600
+              : Colors.white,
+          foregroundColor: theme.brightness == Brightness.light
+              ? Colors.white
+              : theme.canvasColor,
+        ),
+      ),
     );
   }
 }
