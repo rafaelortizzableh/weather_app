@@ -11,11 +11,13 @@ class CurrentWeather extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
     final currentWeather = ref.watch(weatherControllerProvider).currentWeather;
     return currentWeather.when(
       data: (weatherModel) => WeatherSuccessWidget(weatherModel: weatherModel),
       error: (error, _) => Center(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
               'Error: $error',
@@ -23,6 +25,11 @@ class CurrentWeather extends ConsumerWidget {
             ),
             const SizedBox(height: AppConstants.padding12),
             ElevatedButton(
+                style: theme.brightness == Brightness.dark
+                    ? null
+                    : ElevatedButton.styleFrom(
+                        primary: Colors.white,
+                      ),
                 onPressed: () {
                   ref.read(weatherControllerProvider.notifier).getWeatherData();
                 },
