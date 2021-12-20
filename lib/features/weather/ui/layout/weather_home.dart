@@ -23,24 +23,37 @@ class WeatherHome extends StatelessWidget {
           ),
         ],
       ),
-      body: Consumer(builder: (context, ref, _) {
-        return RefreshIndicator(
-          backgroundColor: Colors.white,
-          color: Colors.lightBlue.shade300,
-          onRefresh: () async {
-            await ref.read(weatherControllerProvider.notifier).getWeatherData();
-          },
-          child: SingleChildScrollView(
-            physics: const AlwaysScrollableScrollPhysics(),
-            child: Column(
-              children: const [
-                CurrentWeather(),
-                ForecastList(),
-              ],
+      body: Consumer(
+        builder: (context, ref, _) {
+          return RefreshIndicator(
+            backgroundColor: Colors.white,
+            color: Colors.lightBlue.shade300,
+            onRefresh: () async {
+              await ref
+                  .read(weatherControllerProvider.notifier)
+                  .getWeatherData();
+            },
+            child: SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              child: Column(
+                children: const [
+                  CurrentWeather(),
+                  ForecastList(),
+                ],
+              ),
             ),
-          ),
-        );
-      }),
+          );
+        },
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      floatingActionButton: FloatingActionButton.small(
+        child: const Icon(
+          Icons.map,
+          color: Colors.white,
+        ),
+        onPressed: () =>
+            Navigator.pushNamed(context, WeatherMapWebView.routeName),
+      ),
     );
   }
 }

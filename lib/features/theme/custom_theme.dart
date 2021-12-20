@@ -26,7 +26,7 @@ class CustomTheme {
             900: Palette.appColor900,
           },
         ),
-        accentColor: Palette.appColor500,
+        accentColor: Colors.lightBlue,
       ),
       scaffoldBackgroundColor: Palette.black,
       appBarTheme: const AppBarTheme(

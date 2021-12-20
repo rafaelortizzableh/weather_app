@@ -22,15 +22,8 @@ class ForecastList extends ConsumerWidget {
           return ForecastListTile(weather: weather);
         },
       ),
-      error: (error, _) => Center(
-        child: Text(
-          'Error: $error',
-          textAlign: TextAlign.center,
-        ),
-      ),
-      loading: () => const Center(
-        child: CircularProgressIndicator.adaptive(),
-      ),
+      error: (error, _) => const SizedBox(),
+      loading: () => const SizedBox(),
     );
   }
 }

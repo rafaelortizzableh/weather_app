@@ -1,7 +1,8 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../../core/core.dart';
 import '../../../features.dart';
 
@@ -14,9 +15,19 @@ class CurrentWeather extends ConsumerWidget {
     return currentWeather.when(
       data: (weatherModel) => WeatherSuccessWidget(weatherModel: weatherModel),
       error: (error, _) => Center(
-        child: Text(
-          'Error: $error',
-          textAlign: TextAlign.center,
+        child: Column(
+          children: [
+            Text(
+              'Error: $error',
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: AppConstants.padding12),
+            ElevatedButton(
+                onPressed: () {
+                  ref.read(weatherControllerProvider.notifier).getWeatherData();
+                },
+                child: Text('${AppLocalizations.of(context)?.reloadWeather}')),
+          ],
         ),
       ),
       loading: () => const Center(
