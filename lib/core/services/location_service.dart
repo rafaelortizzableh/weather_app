@@ -26,7 +26,7 @@ class LocationService {
 
   Future<Position?> getLocation() async {
     try {
-      final position = await Geolocator.getLastKnownPosition();
+      final position = await Geolocator.getCurrentPosition();
       return position;
     } on TimeoutException catch (error) {
       throw Failure(

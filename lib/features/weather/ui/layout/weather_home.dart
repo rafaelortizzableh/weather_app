@@ -3,22 +3,24 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../features.dart';
 
-class WeatherHome extends ConsumerWidget {
+class WeatherHome extends ConsumerStatefulWidget {
   const WeatherHome({Key? key}) : super(key: key);
   static const routeName = 'home';
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return FutureBuilder<void>(
-        future: ref.watch(weatherControllerProvider.notifier).getWeatherData(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator.adaptive());
-          } else if (snapshot.hasError) {
-            return Center(child: Text(snapshot.error.toString()));
-          }
-          return const WeatherAppContent();
-        });
+  ConsumerState<WeatherHome> createState() => _WeatherHomeState();
+}
+
+class _WeatherHomeState extends ConsumerState<WeatherHome> {
+  @override
+  void initState() {
+    super.initState();
+    ref.read(weatherControllerProvider.notifier).getWeatherData();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return const WeatherAppContent();
   }
 }
 

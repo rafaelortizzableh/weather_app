@@ -72,7 +72,7 @@ class ForecastListTile extends StatelessWidget {
         ),
         title: Text(
           weather.status,
-          style: theme.textTheme.subtitle1?.copyWith(
+          style: theme.textTheme.headline5?.copyWith(
               color: theme.brightness == Brightness.light
                   ? Palette.grey600
                   : Colors.white,
@@ -80,7 +80,7 @@ class ForecastListTile extends StatelessWidget {
         ),
         subtitle: Text(
           weather.dateText,
-          style: theme.textTheme.subtitle2?.copyWith(
+          style: theme.textTheme.headline6?.copyWith(
             color: theme.brightness == Brightness.light
                 ? Palette.grey600
                 : Colors.white,

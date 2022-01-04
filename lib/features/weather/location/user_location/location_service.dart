@@ -24,11 +24,11 @@ class LocalLocationService implements DeviceLocationService {
       final lastPosition = await locationRepository.getUserLocation();
       if (lastPosition == null) {
         final failure = Failure(
-          message: AppLocalizations.of(
-                      AppConstants.navigationKey.currentContext!)
-                  ?.userDidNotGrantLocationPermissions ??
-              'Location permissions are permanently denied, we cannot request permissions.',
-          code: 998,
+          message:
+              AppLocalizations.of(AppConstants.navigationKey.currentContext!)
+                      ?.userDidNotGrantLocationPermissions ??
+                  'Could not get user location',
+          code: 997, // Could not get user location
         );
         return Error(failure);
       }
