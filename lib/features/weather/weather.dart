@@ -8,3 +8,4 @@ export 'weather_state.dart';
 export 'weather_controller.dart';
 export 'service/weather_service.dart';
 export 'model/model.dart';
+export 'location/location.dart';

@@ -3,17 +3,40 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../features.dart';
 
-class WeatherHome extends StatelessWidget {
+class WeatherHome extends ConsumerWidget {
   const WeatherHome({Key? key}) : super(key: key);
   static const routeName = 'home';
 
   @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return FutureBuilder<void>(
+        future: ref.watch(weatherControllerProvider.notifier).getWeatherData(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator.adaptive());
+          } else if (snapshot.hasError) {
+            return Center(child: Text(snapshot.error.toString()));
+          }
+          return const WeatherAppContent();
+        });
+  }
+}
+
+class WeatherAppContent extends StatelessWidget {
+  const WeatherAppContent({Key? key}) : super(key: key);
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          '${AppLocalizations.of(context)?.weatherInLondon}',
-        ),
+        title: Consumer(builder: (context, ref, _) {
+          var city = ref.watch(weatherControllerProvider).currentWeather.when(
+              data: (weather) => weather.place,
+              error: (_, __) => '',
+              loading: () => '...');
+          return Text(
+            '${AppLocalizations.of(context)?.weatherInCity}$city',
+          );
+        }),
         actions: [
           IconButton(
             icon: const Icon(Icons.light_mode),

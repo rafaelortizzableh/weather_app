@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:multiple_result/multiple_result.dart';
 import 'package:weather_app/core/core.dart';
 import '../features.dart';
@@ -6,29 +7,46 @@ import '../features.dart';
 final weatherControllerProvider =
     StateNotifierProvider.autoDispose<WeatherController, WeatherState>(
   (ref) => WeatherController(
-    WeatherState(
-      lastUpdate: DateTime.now(),
-      forecast: const AsyncValue.data([]),
-      currentWeather: AsyncValue.data(WeatherModel.initial()),
-    ),
-    weatherService: ref.watch(weatherServiceProvider),
-  ),
+      WeatherState(
+        lastUpdate: DateTime.now(),
+        forecast: const AsyncValue.data([]),
+        currentWeather: AsyncValue.data(WeatherModel.initial()),
+      ),
+      weatherService: ref.watch(weatherServiceProvider),
+      locationservice: ref.watch(deviceLocationProvider)),
 );
 
 class WeatherController extends StateNotifier<WeatherState> {
-  WeatherController(WeatherState state, {required this.weatherService})
-      : super(state) {
-    getWeatherData();
-  }
+  WeatherController(
+    WeatherState state, {
+    required this.weatherService,
+    required this.locationservice,
+  }) : super(state);
+
   final WeatherService weatherService;
+  final DeviceLocationService locationservice;
 
   Future<void> getWeatherData() async {
     state = state.copyWith(
         forecast: const AsyncValue.loading(),
         currentWeather: const AsyncValue.loading(),
         lastUpdate: DateTime.now());
-    final forecastRequest = weatherService.getRemoteLondonFiveDayForecast();
-    final currentWeatherRequest = weatherService.getRemoteLondonWeather();
+
+    final userPositon = await locationservice.getUserLocation();
+    Position? location;
+    userPositon.when((error) {
+      state = state.copyWith(
+        currentWeather: AsyncError(error),
+        forecast: AsyncError(error),
+      );
+    }, (success) => location = success);
+
+    if (location == null) {
+      return;
+    }
+
+    final forecastRequest = weatherService.getRemoteFiveDayForecast(location!);
+    final currentWeatherRequest = weatherService.getRemoteWeather(location!);
     final result = await Future.wait([forecastRequest, currentWeatherRequest]);
 
     final forecastResult = result[0] as Result<Failure, List<WeatherModel>>;
@@ -37,9 +55,8 @@ class WeatherController extends StateNotifier<WeatherState> {
     forecastResult.when(
       (error) {
         if (error.code == 999 &&
-            weatherService.getLocalLondonFiveDayForecast() is! Failure) {
-          final localWeatherForecast =
-              weatherService.getLocalLondonFiveDayForecast();
+            weatherService.getLocalFiveDayForecast() is! Failure) {
+          final localWeatherForecast = weatherService.getLocalFiveDayForecast();
 
           localWeatherForecast.when(
             (error) => state = state.copyWith(
@@ -62,9 +79,8 @@ class WeatherController extends StateNotifier<WeatherState> {
     );
 
     currentWeatherResult.when((error) {
-      if (error.code == 999 &&
-          weatherService.getLocalLondonWeather() is! Failure) {
-        final localWeather = weatherService.getLocalLondonWeather();
+      if (error.code == 999 && weatherService.getLocalWeather() is! Failure) {
+        final localWeather = weatherService.getLocalWeather();
 
         localWeather.when(
           (error) => state = state.copyWith(
@@ -75,7 +91,7 @@ class WeatherController extends StateNotifier<WeatherState> {
           ),
         );
       } else {
-        state = state.copyWith(forecast: AsyncValue.error(error));
+        state = state.copyWith(currentWeather: AsyncValue.error(error));
       }
     }, (weather) {
       weatherService.saveWeatherLocally(weather);

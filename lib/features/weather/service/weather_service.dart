@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:multiple_result/multiple_result.dart';
 import '../../../features/features.dart';
 import '../../../core/core.dart';
@@ -14,10 +15,11 @@ final weatherServiceProvider = Provider<WeatherService>((ref) {
 });
 
 abstract class WeatherService {
-  Future<Result<Failure, List<WeatherModel>>> getRemoteLondonFiveDayForecast();
-  Future<Result<Failure, WeatherModel>> getRemoteLondonWeather();
-  Result<Failure, List<WeatherModel>> getLocalLondonFiveDayForecast();
-  Result<Failure, WeatherModel> getLocalLondonWeather();
+  Future<Result<Failure, List<WeatherModel>>> getRemoteFiveDayForecast(
+      Position userLocation);
+  Future<Result<Failure, WeatherModel>> getRemoteWeather(Position userLocation);
+  Result<Failure, List<WeatherModel>> getLocalFiveDayForecast();
+  Result<Failure, WeatherModel> getLocalWeather();
   Future<Result<Failure, bool>> saveWeatherLocally(WeatherModel weatherModel);
   Future<Result<Failure, bool>> saveForecastLocally(
       List<WeatherModel> forecast);
@@ -31,11 +33,11 @@ class RemoteAndLocalWeatherService implements WeatherService {
   final LocalWeatherRepository localWeatherRepository;
 
   @override
-  Future<Result<Failure, List<WeatherModel>>>
-      getRemoteLondonFiveDayForecast() async {
+  Future<Result<Failure, List<WeatherModel>>> getRemoteFiveDayForecast(
+      Position userLocation) async {
     try {
       final forecastEntitiesList =
-          await remoteWeatherRepository.getLondonFiveDayForecast();
+          await remoteWeatherRepository.getFiveDayForecast(userLocation);
       final mappedList = forecastEntitiesList
           .map((forecast) => WeatherModel.fromEntity(forecast))
           .toList();
@@ -46,9 +48,11 @@ class RemoteAndLocalWeatherService implements WeatherService {
   }
 
   @override
-  Future<Result<Failure, WeatherModel>> getRemoteLondonWeather() async {
+  Future<Result<Failure, WeatherModel>> getRemoteWeather(
+      Position userLocation) async {
     try {
-      final currentWeather = await remoteWeatherRepository.getLondonWeather();
+      final currentWeather =
+          await remoteWeatherRepository.getUserWeather(userLocation);
       final mappedWeather = WeatherModel.fromEntity(currentWeather);
       return Success(mappedWeather);
     } on Failure catch (failure) {
@@ -80,7 +84,7 @@ class RemoteAndLocalWeatherService implements WeatherService {
   }
 
   @override
-  Result<Failure, List<WeatherModel>> getLocalLondonFiveDayForecast() {
+  Result<Failure, List<WeatherModel>> getLocalFiveDayForecast() {
     try {
       final result = localWeatherRepository.getLocalForecast();
       return Success(result);
@@ -90,7 +94,7 @@ class RemoteAndLocalWeatherService implements WeatherService {
   }
 
   @override
-  Result<Failure, WeatherModel> getLocalLondonWeather() {
+  Result<Failure, WeatherModel> getLocalWeather() {
     try {
       final result = localWeatherRepository.getLocalWeather();
       return Success(result);

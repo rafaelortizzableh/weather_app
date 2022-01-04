@@ -218,8 +218,8 @@ class Wind {
     required this.deg,
   });
 
-  final double speed;
-  final int deg;
+  final num speed;
+  final num deg;
 
   factory Wind.fromMap(Map<String, dynamic> json) => Wind(
         speed: json['speed'],
@@ -232,8 +232,8 @@ class Wind {
       };
 
   Wind copyWith({
-    double? speed,
-    int? deg,
+    num? speed,
+    num? deg,
   }) {
     return Wind(
       speed: speed ?? this.speed,

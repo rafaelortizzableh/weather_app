@@ -1,36 +1,42 @@
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:geolocator/geolocator.dart';
+
 import '../../../core/core.dart';
 import '../../features.dart';
 
 final remoteWeatherRepositoryProvider = Provider<RemoteWeatherRepository>(
   (ref) => OpenWeatherRepository(
-    dio: ref.watch(dioProvider),
-  ),
+      dio: ref.watch(weatherDioProvider),
+      locationRepository: ref.watch(locationRepositoryProvider)),
 );
 
 abstract class RemoteWeatherRepository {
-  Future<List<WeatherModelEntity>> getLondonFiveDayForecast();
-  Future<WeatherModelEntity> getLondonWeather();
+  Future<List<WeatherModelEntity>> getFiveDayForecast(Position userLocation);
+  Future<WeatherModelEntity> getUserWeather(Position userLocation);
 }
 
 class OpenWeatherRepository implements RemoteWeatherRepository {
-  const OpenWeatherRepository({required this.dio});
+  const OpenWeatherRepository(
+      {required this.dio, required this.locationRepository});
   final Dio dio;
+  final UserLocationRepository locationRepository;
 
   @override
-  Future<WeatherModelEntity> getLondonWeather() async {
+  Future<WeatherModelEntity> getUserWeather(Position userLocation) async {
     try {
       final languageCode =
           Localizations.localeOf(AppConstants.navigationKey.currentContext!)
               .languageCode;
 
       final response = await dio.get('weather', queryParameters: {
-        'q': 'london',
-        'appid': AppConstants.apiKey,
+        'lat': '${userLocation.latitude}',
+        'lon': '${userLocation.longitude}',
+        'appid': AppConstants.weatherApiKey,
         'lang': languageCode,
         'units': 'metric',
       });
@@ -56,15 +62,17 @@ class OpenWeatherRepository implements RemoteWeatherRepository {
   }
 
   @override
-  Future<List<WeatherModelEntity>> getLondonFiveDayForecast() async {
+  Future<List<WeatherModelEntity>> getFiveDayForecast(
+      Position userLocation) async {
     try {
       final languageCode =
           Localizations.localeOf(AppConstants.navigationKey.currentContext!)
               .languageCode;
 
       final response = await dio.get('forecast', queryParameters: {
-        'q': 'london',
-        'appid': AppConstants.apiKey,
+        'lat': '${userLocation.latitude}',
+        'lon': '${userLocation.longitude}',
+        'appid': AppConstants.weatherApiKey,
         'lang': languageCode,
         'units': 'metric',
       });

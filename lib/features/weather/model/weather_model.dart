@@ -13,6 +13,7 @@ class WeatherModel {
   final String iconUrlSmall;
   final String iconUrlLarge;
   final DateTime timeStamp;
+  final String place;
 
   WeatherModel({
     required this.status,
@@ -24,6 +25,7 @@ class WeatherModel {
     required this.iconUrlSmall,
     required this.iconUrlLarge,
     required this.timeStamp,
+    required this.place,
   });
 
   WeatherModel.initial()
@@ -35,6 +37,7 @@ class WeatherModel {
         lowestTemperature = 0,
         iconUrlSmall = '',
         iconUrlLarge = '',
+        place = '',
         timeStamp = DateTime.now();
 
   factory WeatherModel.fromEntity(WeatherModelEntity entity) {
@@ -45,6 +48,7 @@ class WeatherModel {
       humidity: entity.main.humidity,
       highestTemperature: entity.main.tempMax,
       lowestTemperature: entity.main.tempMin,
+      place: entity.name ?? '',
       timeStamp: DateTime.fromMillisecondsSinceEpoch(entity.dt * 1000),
       iconUrlSmall:
           'https://openweathermap.org/img/wn/${entity.weatherEntity.first.icon}@2x.png',
@@ -69,6 +73,7 @@ class WeatherModel {
       'iconUrlSmall': iconUrlSmall,
       'iconUrlLarge': iconUrlLarge,
       'timeStamp': timeStamp.toString(),
+      'place': place,
     };
   }
 
@@ -76,6 +81,7 @@ class WeatherModel {
 
   factory WeatherModel.fromMap(Map<String, dynamic> map) {
     return WeatherModel(
+      place: map['place'] ?? '',
       status: map['status'] ?? '',
       celsiusTemperature: map['celsiusTemperature']?.toDouble() ?? 0.0,
       feelsLike: map['feelsLike']?.toDouble() ?? 0.0,

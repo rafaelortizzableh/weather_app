@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class AppConstants {
-  static const String apiKey = String.fromEnvironment('WEATHER_API');
+  static const String weatherApiKey = String.fromEnvironment('WEATHER_API');
+  static const String geoMappingApiKey = String.fromEnvironment('GEOMAP_API');
 
   static GlobalKey<NavigatorState> navigationKey = GlobalKey<NavigatorState>();
 

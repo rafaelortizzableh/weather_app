@@ -1,0 +1,12 @@
+{
+  "appTitle": "Weather App",
+  "theme": "Tema",
+  "lightTheme": "Tema chiaro",
+  "systemTheme": "Tema di sistema",
+  "darkTheme": "Tema scuro",
+  "weatherInCity": "Il tempo in ",
+  "reloadWeather": "Aggiorna le informazioni sul clima",
+  "forecastForNextFiveDays": "Il tempo nei prossimi giorni",
+  "noInternetConnection": "Nessuna connessione internet",
+  "userDidNotGrantLocationPermissions": "I permessi di locazione vengono definitivamente rifiutati, non possono essere richiesti di nuovo."
+}

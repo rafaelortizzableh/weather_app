@@ -19,8 +19,9 @@
   "@darkTheme": {
     "description": "Name of dark theme"
   },
-  "weatherInLondon": "The weather in London",
+  "weatherInCity": "The weather in ",
   "reloadWeather": "Reload Weather Data",
   "forecastForNextFiveDays": "Forecast for the next five days",
-  "noInternetConnection": "No Internet Connection"
+  "noInternetConnection": "No Internet Connection",
+  "userDidNotGrantLocationPermissions": "Location permissions are permanently denied, we cannot request permissions."
 }

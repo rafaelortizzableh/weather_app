@@ -4,8 +4,9 @@
   "lightTheme": "Tema claro",
   "systemTheme": "Tema del sistema",
   "darkTheme": "Tema oscuro",
-  "weatherInLondon": "El tiempo en Londres",
+  "weatherInCity": "El tiempo en ",
   "reloadWeather": "Refrescar información del clima",
   "forecastForNextFiveDays": "El tiempo en los próximos días",
-  "noInternetConnection": "Sin Conexión a Internet"
+  "noInternetConnection": "Sin Conexión a Internet",
+  "userDidNotGrantLocationPermissions": "Los permisos de ubicación están rechazados permanentemente, no se puede pedir nuevamente."
 }
