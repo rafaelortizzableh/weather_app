@@ -1,10 +1,11 @@
 import 'dart:convert';
+import 'dart:collection';
 
-import 'package:intl/intl.dart';
-import 'package:weather_app/features/weather/model/weather_model_entity.dart';
+import '../../../core/core.dart';
+import '../../../features/features.dart';
 
 class WeatherModel {
-  final String status;
+  final String description;
   final double celsiusTemperature;
   final double feelsLike;
   final int humidity;
@@ -16,7 +17,7 @@ class WeatherModel {
   final String place;
 
   WeatherModel({
-    required this.status,
+    required this.description,
     required this.celsiusTemperature,
     required this.feelsLike,
     required this.humidity,
@@ -29,7 +30,7 @@ class WeatherModel {
   });
 
   WeatherModel.initial()
-      : status = '',
+      : description = '',
         celsiusTemperature = 0,
         feelsLike = 0,
         humidity = 0,
@@ -42,7 +43,7 @@ class WeatherModel {
 
   factory WeatherModel.fromEntity(WeatherModelEntity entity) {
     return WeatherModel(
-      status: entity.weatherEntity.first.main,
+      description: entity.weatherEntity.first.description,
       celsiusTemperature: entity.main.temp,
       feelsLike: entity.main.feelsLike,
       humidity: entity.main.humidity,
@@ -64,7 +65,7 @@ class WeatherModel {
 
   Map<String, dynamic> toMap() {
     return {
-      'status': status,
+      'status': description,
       'celsiusTemperature': celsiusTemperature,
       'feelsLike': feelsLike,
       'humidity': humidity,
@@ -77,12 +78,14 @@ class WeatherModel {
     };
   }
 
-  String get dateText => DateFormat('EEEEEE, dd/M/y').format(timeStamp);
+  String get dateText =>
+      LocalizationsFormatting.weekDayMonthAndYearWithBackSlash
+          .format(timeStamp);
 
   factory WeatherModel.fromMap(Map<String, dynamic> map) {
     return WeatherModel(
       place: map['place'] ?? '',
-      status: map['status'] ?? '',
+      description: map['status'] ?? '',
       celsiusTemperature: map['celsiusTemperature']?.toDouble() ?? 0.0,
       feelsLike: map['feelsLike']?.toDouble() ?? 0.0,
       humidity: map['humidity']?.toInt() ?? 0,

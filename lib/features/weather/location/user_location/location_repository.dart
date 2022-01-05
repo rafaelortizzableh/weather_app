@@ -50,16 +50,6 @@ class UserLocationRepository implements LocationRepository {
           return await locationService.getLocation();
         case LocationPermission.whileInUse:
           return await locationService.getLocation();
-        case LocationPermission.denied:
-          final locationServicesRequest =
-              await locationService.requestPermission();
-          if (locationServicesRequest == LocationPermission.always ||
-              locationServicesRequest == LocationPermission.whileInUse) {
-            return await locationService.getLocation();
-          } else {
-            return Future.error(
-                'Location permissions are permanently denied, we cannot request permissions.');
-          }
         case LocationPermission.deniedForever:
           return Future.error(
               'Location permissions are permanently denied, we cannot request permissions.');

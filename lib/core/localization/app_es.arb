@@ -7,6 +7,12 @@
   "weatherInCity": "El tiempo en ",
   "reloadWeather": "Refrescar información del clima",
   "forecastForNextFiveDays": "El tiempo en los próximos días",
-  "noInternetConnection": "Sin Conexión a Internet",
-  "userDidNotGrantLocationPermissions": "Los permisos de ubicación están rechazados permanentemente, no se puede pedir nuevamente."
+  "noInternetConnection": "Sin conexión a Internet",
+  "userDidNotGrantLocationPermissions": "Los permisos de ubicación están rechazados permanentemente, no se pueden pedir nuevamente.",
+  "hello": "Hola",
+  "requestPermission": "Conceder permiso de ubicación",
+  "permissionNeeded": "Necesitamos tu ubicación para poder mostrarte el clima",
+  "locationServicesNeeded": "El servicio de ubicación debe estar activado para mostrarte el clima",
+  "close": "Cerrar",
+  "enableLocationService": "Activar"
 }

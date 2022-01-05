@@ -6,3 +6,5 @@ export 'services/shared_preferences_service.dart';
 export 'services/location_service.dart';
 export 'constants/constants.dart';
 export 'failure/failure.dart';
+export 'utils/localizations_formatting.dart';
+export 'extensions/string_extensions.dart';

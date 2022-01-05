@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:weather_app/core/core.dart';
 
+import '../../../../core/core.dart';
 import '../../../features.dart';
 
 class ForecastList extends ConsumerWidget {
@@ -71,16 +71,16 @@ class ForecastListTile extends StatelessWidget {
           ],
         ),
         title: Text(
-          weather.status,
-          style: theme.textTheme.headline5?.copyWith(
+          weather.dateText.toCapitalized(),
+          style: theme.textTheme.headline6?.copyWith(
               color: theme.brightness == Brightness.light
                   ? Palette.grey600
                   : Colors.white,
               fontWeight: FontWeight.bold),
         ),
         subtitle: Text(
-          weather.dateText,
-          style: theme.textTheme.headline6?.copyWith(
+          weather.description.toCapitalized(),
+          style: theme.textTheme.subtitle1?.copyWith(
             color: theme.brightness == Brightness.light
                 ? Palette.grey600
                 : Colors.white,

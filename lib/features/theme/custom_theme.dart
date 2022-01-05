@@ -48,6 +48,9 @@ class CustomTheme {
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
+          textStyle: const TextStyle(
+            color: Colors.white,
+          ),
           enableFeedback: true,
           padding: const EdgeInsets.symmetric(
               horizontal: AppConstants.padding12,
@@ -104,6 +107,9 @@ class CustomTheme {
       canvasColor: Colors.lightBlue.shade400,
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
+          textStyle: const TextStyle(
+            color: Colors.white,
+          ),
           enableFeedback: true,
           padding: const EdgeInsets.symmetric(
               horizontal: AppConstants.padding12,

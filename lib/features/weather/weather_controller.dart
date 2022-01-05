@@ -26,11 +26,13 @@ class WeatherController extends StateNotifier<WeatherState> {
   final WeatherService weatherService;
   final DeviceLocationService locationservice;
 
-  Future<void> getWeatherData() async {
-    state = state.copyWith(
-        forecast: const AsyncValue.loading(),
-        currentWeather: const AsyncValue.loading(),
-        lastUpdate: DateTime.now());
+  Future<void> getWeatherData({required bool isReload}) async {
+    if (isReload) {
+      state = state.copyWith(
+          forecast: const AsyncValue.loading(),
+          currentWeather: const AsyncValue.loading(),
+          lastUpdate: DateTime.now());
+    }
 
     final userPositon = await locationservice.getUserLocation();
     Position? location;

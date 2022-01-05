@@ -31,7 +31,9 @@ class CurrentWeather extends ConsumerWidget {
                         primary: Colors.white,
                       ),
                 onPressed: () {
-                  ref.read(weatherControllerProvider.notifier).getWeatherData();
+                  ref
+                      .read(weatherControllerProvider.notifier)
+                      .getWeatherData(isReload: false);
                 },
                 child: Text('${AppLocalizations.of(context)?.reloadWeather}')),
           ],
@@ -95,12 +97,12 @@ class WeatherSuccessWidget extends StatelessWidget {
             ],
           ),
           const SizedBox(height: AppConstants.padding8),
-          Text(weatherModel.status,
+          Text(weatherModel.description.toCapitalized(),
               style: theme.textTheme.headline4
                   ?.copyWith(fontWeight: FontWeight.bold),
               textAlign: TextAlign.start),
           const SizedBox(height: AppConstants.padding8),
-          Text(weatherModel.dateText,
+          Text(weatherModel.dateText.toCapitalized(),
               style: theme.textTheme.headline5
                   ?.copyWith(fontWeight: FontWeight.w300),
               textAlign: TextAlign.start),

@@ -23,5 +23,11 @@
   "reloadWeather": "Reload Weather Data",
   "forecastForNextFiveDays": "Forecast for the next five days",
   "noInternetConnection": "No Internet Connection",
-  "userDidNotGrantLocationPermissions": "Location permissions are permanently denied, we cannot request permissions."
+  "userDidNotGrantLocationPermissions": "Location permissions are permanently denied, we cannot request permissions.",
+  "hello": "Hello",
+  "requestPermission": "Grant Location Permission",
+  "permissionNeeded": "We need your location in order to show you the weather",
+  "locationServicesNeeded": "Location services need to be enabled in order to show you the weather",
+  "close": "Close",
+  "enableLocationService": "Enable"
 }

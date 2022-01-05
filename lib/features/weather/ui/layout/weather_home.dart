@@ -5,7 +5,7 @@ import '../../../features.dart';
 
 class WeatherHome extends ConsumerStatefulWidget {
   const WeatherHome({Key? key}) : super(key: key);
-  static const routeName = 'home';
+  static const routeName = 'weatherHome';
 
   @override
   ConsumerState<WeatherHome> createState() => _WeatherHomeState();
@@ -15,7 +15,9 @@ class _WeatherHomeState extends ConsumerState<WeatherHome> {
   @override
   void initState() {
     super.initState();
-    ref.read(weatherControllerProvider.notifier).getWeatherData();
+    ref
+        .read(weatherControllerProvider.notifier)
+        .getWeatherData(isReload: false);
   }
 
   @override
@@ -54,9 +56,9 @@ class WeatherAppContent extends StatelessWidget {
             backgroundColor: Colors.white,
             color: Colors.lightBlue.shade300,
             onRefresh: () async {
-              await ref
+              ref
                   .read(weatherControllerProvider.notifier)
-                  .getWeatherData();
+                  .getWeatherData(isReload: true);
             },
             child: SingleChildScrollView(
               physics: const AlwaysScrollableScrollPhysics(),

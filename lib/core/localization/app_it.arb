@@ -4,9 +4,15 @@
   "lightTheme": "Tema chiaro",
   "systemTheme": "Tema di sistema",
   "darkTheme": "Tema scuro",
-  "weatherInCity": "Il tempo in ",
+  "weatherInCity": "Il meteo in ",
   "reloadWeather": "Aggiorna le informazioni sul clima",
-  "forecastForNextFiveDays": "Il tempo nei prossimi giorni",
+  "forecastForNextFiveDays": "Il meteo nei prossimi giorni",
   "noInternetConnection": "Nessuna connessione internet",
-  "userDidNotGrantLocationPermissions": "I permessi di locazione vengono definitivamente rifiutati, non possono essere richiesti di nuovo."
+  "userDidNotGrantLocationPermissions": "I permessi di localizzazione sono stati revocati permanentemente, non possono essere richiesti di nuovo.",
+  "hello": "Ciao",
+  "requestPermission": "Attiva permesso di localizzazione",
+  "permissionNeeded": "Abbiamo bisogno della tua posizione per mostrati il meteo",
+  "locationServicesNeeded": "Il servizio di localizzazione deve essere attivato per mostrarti il meteo",
+  "close": "Chuidere",
+  "enableLocationService": "Attivare"
 }

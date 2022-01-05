@@ -14,7 +14,7 @@ class MyApp extends ConsumerWidget {
       builder: (BuildContext context) {
         return MaterialApp(
           restorationScopeId: 'app',
-          title: 'Weather App',
+          title: AppLocalizations.of(context)?.appTitle ?? 'Weather App',
           localizationsDelegates: const [
             AppLocalizations.delegate,
             GlobalMaterialLocalizations.delegate,
@@ -33,6 +33,8 @@ class MyApp extends ConsumerWidget {
               settings: routeSettings,
               builder: (BuildContext context) {
                 switch (routeSettings.name) {
+                  case HomeWrapper.routeName:
+                    return const HomeWrapper();
                   case ThemeView.routeName:
                     return const ThemeView();
                   case WeatherHome.routeName:
