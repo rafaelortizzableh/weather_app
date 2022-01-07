@@ -30,16 +30,17 @@ class HomeWrapper extends ConsumerWidget {
               ),
             );
           }
-          var locationEnabled = snapshot.data == true;
 
           if (snapshot.connectionState == ConnectionState.done &&
               snapshot.hasData) {
-            if (locationEnabled == true && !onboardingComplete) {
-              return const OnboardingScreen();
-            } else if (locationEnabled != true && onboardingComplete) {
+            var locationEnabled = snapshot.data == true;
+            if (locationEnabled == false) {
               return const EnableLocationRequest();
-            } else {
-              return const WeatherHome();
+            }
+            if (locationEnabled == true) {
+              return onboardingComplete
+                  ? const WeatherHome()
+                  : const OnboardingScreen();
             }
           }
           return const Scaffold(
