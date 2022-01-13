@@ -8,3 +8,4 @@ export 'constants/constants.dart';
 export 'failure/failure.dart';
 export 'utils/localizations_formatting.dart';
 export 'extensions/string_extensions.dart';
+export 'widgets/focus_detector.dart';

@@ -1,28 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../../../../core/core.dart';
 import '../../../features.dart';
 
-class WeatherHome extends ConsumerStatefulWidget {
+class WeatherHome extends ConsumerWidget {
   const WeatherHome({Key? key}) : super(key: key);
   static const routeName = 'weatherHome';
 
   @override
-  ConsumerState<WeatherHome> createState() => _WeatherHomeState();
-}
-
-class _WeatherHomeState extends ConsumerState<WeatherHome> {
-  @override
-  void initState() {
-    super.initState();
-    ref
-        .read(weatherControllerProvider.notifier)
-        .getWeatherData(isReload: false);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return const WeatherAppContent();
+  Widget build(BuildContext context, WidgetRef ref) {
+    return FocusDetector(
+        onFocusGained: () => ref
+            .read(weatherControllerProvider.notifier)
+            .getWeatherData(isReload: false),
+        child: const WeatherAppContent());
   }
 }
 
