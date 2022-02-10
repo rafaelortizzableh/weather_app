@@ -1,6 +1,6 @@
 # weather_app
 
-Weather app, as the name impies, allows you to check the weather in your location.
+Weather app, as the name implies, allows you to check the weather in your location.
 
 ## How to run this app
 
