@@ -42,5 +42,5 @@ Dynamic backgrounds depending on the current weather may also be an interesting 
 
 ## Others
 
-Even though it's a little different from what the requirements specified, the MVU architecture used, coupled with the repository-pattern on the business layer, in my opinion, allows for a more reliable experience when handling data, state and widget reaction. The use of Riverpod, as an alternative to Flutter has been talked about extensively by the Flutter Community, but my personal reasoning for choosing this State Management and DI solution has a lot to do with the convenience of StateNotifier and the fact that you don’t need a Service Locator when working with this tool.
+MVU architecture used. As well as repository-service pattern. State Management is handled with Riverpod.
 
